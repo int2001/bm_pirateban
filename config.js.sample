@@ -1,0 +1,9 @@
+const config = {
+	api_key:'Brandmeister API KEy fuers Relais',
+	relais:'Call des Relais',
+	relais_id: relais_id ohne anfuehrungsstriche,
+	slot:2,
+	looking_for:[7500003]	// Liste der "Stoerer"
+};
+
+module.exports = config;

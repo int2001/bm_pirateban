@@ -1,0 +1,15 @@
+{
+  "name": "bmnotify",
+  "version": "1.0.0",
+  "description": "Kill dynamic TGs if a specific RadioID transmits",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joerg Dorgeist (DJ7NT)",
+  "license": "ISC",
+  "dependencies": {
+    "dateformat": "^5.0.3",
+    "socket.io-client": "^2.3.0"
+  }
+}
