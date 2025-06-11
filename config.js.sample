@@ -2,7 +2,7 @@ const config = {
 	api_key:'Brandmeister API KEy fuers Relais',		// API Key for the repeater
 	relais:'',						// Name of Repeater (e.g. 'DB0ABC')
 	relais_id: -1,						// ID of Repeater (See BM-Dashboard, without quotes. just number)
-	slot:2,							// Timeslot to Monitor
+	slot:[1,2],						// Timeslots to Monitor. Place them coma-seperated here
 	karenz: 5, 						// Message from BM must be this time young or younger to take any action
 	looking_for:[1,2,3],					// Radio-IDs, which trigger the tool (Example are RadioIDs 1, 2 and three - pse NO quotes!
 	telegram_token: '',					// Optional telegram-bot-token
