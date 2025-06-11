@@ -5,7 +5,7 @@ const config = {
 	slot:[1,2],						// Timeslots to Monitor. Place them coma-seperated here
 	karenz: 5, 						// Message from BM must be this time young or younger to take any action
 	looking_for:[1,2,3],					// Radio-IDs, which trigger the tool (Example are RadioIDs 1, 2 and three - pse NO quotes!
-	telegram_token: '',					// Optional telegram-bot-token
+	telegram_token: '',					// telegram-bot-token (google for "telegram - bot_father" to learn how it works)
 	telegram_channel: -0,					// Telegram Channel to post action to (token MUST be there to use it)
 };
 
