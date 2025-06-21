@@ -10,7 +10,7 @@ If the pirate tries to subscribe to a dynamic TG, ALL dynamic TGs from this Slot
 - install dependencies by calling `bun i`
 - rename the `config.js.sample` to `config.js`
 - edit the `config.js` (Selfdescribing)
-- start the tool with `bun ./index.js`
+- start the tool with `bun ./bm_pirateban.js`
 - enjoy
 
 ## Important

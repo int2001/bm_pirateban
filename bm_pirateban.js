@@ -1,3 +1,5 @@
+#!/usr/bin/env -S node
+
 #!/usr/bin/env bun
 const io = require('socket.io-client');
 import dateFormat, { masks } from "dateformat";
