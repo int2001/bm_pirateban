@@ -2,7 +2,7 @@
 
 const io = require('socket.io-client');
 import dateFormat, { masks } from "dateformat";
-const config = require("./config.js")
+const config = require("./config/config.js")
 const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(config.telegram_token, {polling: false});
 
