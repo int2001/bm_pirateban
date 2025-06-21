@@ -8,8 +8,8 @@ If the pirate tries to subscribe to a dynamic TG, ALL dynamic TGs from this Slot
 - `git clone git@github.com:int2001/bm_pirateban.git` the repo
 - change to the directory which was created (`cd bm_pirateban`)
 - install dependencies by calling `bun i`
-- rename the `config.js.sample` to `config.js`
-- edit the `config.js` (Selfdescribing)
+- rename the `./config/config.js.sample` to `./config/config.js`
+- edit the `./config/config.js` (Selfdescribing)
 - start the tool with `bun ./bm_pirateban.js`
 - enjoy
 
