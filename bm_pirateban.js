@@ -2,10 +2,8 @@
 const io = require('socket.io-client');
 import dateFormat, { masks } from "dateformat";
 const config = require("./config.js")
-if (((config.telegram_channel ?? '') !== '') && ((config.telegram_token ?? '') !== '')) {
-	const TelegramBot = require('node-telegram-bot-api');
-	const bot = new TelegramBot(config.telegram_token, {polling: false});
-}
+const TelegramBot = require('node-telegram-bot-api');
+const bot = new TelegramBot(config.telegram_token, {polling: false});
 
 const BM_DEFAULT_URL = 'https://api.brandmeister.network';
 const BM_DEFAULT_OPTS = {
@@ -37,15 +35,15 @@ socket.on('reconnect_error', (error) => {
 socket.on('mqtt', (msg) => {
 	const lhMsg = JSON.parse(msg.payload);
 	if (
-		(lhMsg.Slot == config.slot) &&  // TimeSlot
+		(config.slot.indexOf(lhMsg.Slot) !== -1) &&  // TimeSlot
 		(((Date.now()/1000))-lhMsg.Stop<config.karenz) && // Karenz-Zeit 
 		(lhMsg.LinkCall == config.relais)) { // Passendes Relais
 		if (config.looking_for.indexOf(lhMsg.SourceID) !== -1) {
 			let message=(lhMsg.SourceID+' transmitted on TS'+lhMsg.Slot+' to '+lhMsg.DestinationID+' via '+lhMsg.LinkCall+' at '+timeConverter(lhMsg.Stop)+' ('+Math.round((Date.now()/1000)-lhMsg.Stop,1)+'s ago)');
 			console.log(message);
-			drop_tgs(config.slot);
+			drop_tgs(lhMsg.Slot);
 			if (((config.telegram_channel ?? '') !== '') && ((config.telegram_token ?? '') !== '')) {
-				bot.sendMessage(config.telegram_channel,'Blacklisted RADIO-ID detected. Dropping ALL dynamic TGs on Slot '+config.slot+"\nReason was: "+message);
+				bot.sendMessage(config.telegram_channel,'Blacklisted RADIO-ID detected. Dropping ALL dynamic TGs on Slot '+lhMsg.Slot+"\nReason was: "+message);
 			}
 		}
 	}
