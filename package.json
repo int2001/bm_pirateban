@@ -9,7 +9,8 @@
   "author": "Joerg Dorgeist (DJ7NT)",
   "license": "ISC",
   "dependencies": {
-    "dateformat": "^5.0.3",
+    "dateformat": "^4.6.3",
+    "node-fetch": "^2.7.0",
     "node-telegram-bot-api": "^0.66.0",
     "socket.io-client": "^2.3.0"
   }
