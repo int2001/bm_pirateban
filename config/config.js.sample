@@ -1,12 +1,12 @@
 const config = {
-	api_key:'Brandmeister API KEy fuers Relais',		// API Key for the repeater
-	relais:'',						// Name of Repeater (e.g. 'DB0ABC')
-	relais_id: -1,						// ID of Repeater (See BM-Dashboard, without quotes. just number)
-	slot:[1,2],						// Timeslots to Monitor. Place them coma-seperated here
-	karenz: 5, 						// Message from BM must be this time young or younger to take any action
-	looking_for:[1,2,3],					// Radio-IDs, which trigger the tool (Example are RadioIDs 1, 2 and three - pse NO quotes!
-	telegram_token: '',					// telegram-bot-token (google for "telegram - bot_father" to learn how it works)
-	telegram_channel: -0,					// Telegram Channel to post action to (token MUST be there to use it)
+	api_key:'' // BM-APIKEY
+	relais:'', // Call of Repeater
+	relais_id: 9999, // BM-ID of Repeater
+	slot:[1,2],	// Slots which trigger it
+	karenz: 5, 
+	looking_for:[123,456],	// DMR-IDs which are triggering it
+	telegram_token: '',	// token for telegrambot (see botfather at telegram)
+	telegram_channel: -1234,	// ChannelID from telegram
 };
 
 module.exports = config;

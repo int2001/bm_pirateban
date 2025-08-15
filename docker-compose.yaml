@@ -1,0 +1,10 @@
+version: '3'
+services:
+  dxcache:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./
+    container_name: bm_pirateban
+    volumes:
+      - ./config:/usr/src/app/config
+    restart: unless-stopped
