@@ -4,7 +4,8 @@ const config = {
 	relais_id: 9999, // BM-ID of Repeater
 	slot:[1,2],	// Slots which trigger it
 	karenz: 5, 
-	looking_for:[123,456],	// DMR-IDs which are triggering it
+	looking_for1:[123,7500], // Only Slot1
+	looking_for2:[2629,123], // Only Slot2
 	telegram_token: '',	// token for telegrambot (see botfather at telegram)
 	telegram_channel: -1234,	// ChannelID from telegram
 };
