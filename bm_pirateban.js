@@ -39,15 +39,23 @@ socket.on('mqtt', (msg) => {
 		(config.slot.indexOf(lhMsg.Slot) !== -1) &&  // TimeSlot
 		(((Date.now()/1000))-lhMsg.Stop<config.karenz) && // Karenz-Zeit 
 		(lhMsg.LinkCall == config.relais)) { // Passendes Relais
-		if (config.looking_for.indexOf(lhMsg.SourceID) !== -1) {
-			let message=(lhMsg.SourceID+' transmitted on TS'+lhMsg.Slot+' to '+lhMsg.DestinationID+' via '+lhMsg.LinkCall+' at '+timeConverter(lhMsg.Stop)+' ('+Math.round((Date.now()/1000)-lhMsg.Stop,1)+'s ago)');
-			console.log(message);
-			drop_tgs(lhMsg.Slot);
-			if (((config.telegram_channel ?? '') !== '') && ((config.telegram_token ?? '') !== '')) {
-				bot.sendMessage(config.telegram_channel,'Blacklisted RADIO-ID detected. Dropping ALL dynamic TGs on Slot '+lhMsg.Slot+"\nReason was: "+message);
+			if ((lhMsg.Slot == 1) && (config.looking_for1.indexOf(lhMsg.SourceID) !== -1)) { // Slot1
+				let message=(lhMsg.SourceID+' transmitted on TS'+lhMsg.Slot+' to '+lhMsg.DestinationID+' via '+lhMsg.LinkCall+' at '+timeConverter(lhMsg.Stop)+' ('+Math.round((Date.now()/1000)-lhMsg.Stop,1)+'s ago)');
+				console.log(message);
+				drop_tgs(lhMsg.Slot);
+				if (((config.telegram_channel ?? '') !== '') && ((config.telegram_token ?? '') !== '')) {
+					bot.sendMessage(config.telegram_channel,'Blacklisted RADIO-ID detected. Dropping ALL dynamic TGs on Slot '+lhMsg.Slot+"\nReason was: "+message);
+				}
+			}
+			if ((lhMsg.Slot == 2) && (config.looking_for2.indexOf(lhMsg.SourceID) !== -1)) { // Slot2
+				let message=(lhMsg.SourceID+' transmitted on TS'+lhMsg.Slot+' to '+lhMsg.DestinationID+' via '+lhMsg.LinkCall+' at '+timeConverter(lhMsg.Stop)+' ('+Math.round((Date.now()/1000)-lhMsg.Stop,1)+'s ago)');
+				console.log(message);
+				drop_tgs(lhMsg.Slot);
+				if (((config.telegram_channel ?? '') !== '') && ((config.telegram_token ?? '') !== '')) {
+					bot.sendMessage(config.telegram_channel,'Blacklisted RADIO-ID detected. Dropping ALL dynamic TGs on Slot '+lhMsg.Slot+"\nReason was: "+message);
+				}
 			}
 		}
-	}
 });
 
 
