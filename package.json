@@ -9,6 +9,6 @@
   "author": "Joerg Dorgeist (DJ7NT)",
   "license": "ISC",
   "dependencies": {
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^4.8.0"
   }
 }
