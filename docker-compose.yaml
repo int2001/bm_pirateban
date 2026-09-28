@@ -5,6 +5,8 @@ services:
       dockerfile: ./Dockerfile
       context: ./
     container_name: bm_pirateban
+    init: true
+    mem_limit: 64m
     volumes:
       - ./config:/usr/src/app/config
     restart: unless-stopped

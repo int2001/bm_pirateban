@@ -1,5 +1,5 @@
 # Use official Node.js image
-FROM node:18 as base
+FROM node:20-alpine as base
 
 WORKDIR /usr/src/app
 
@@ -12,7 +12,7 @@ RUN cd /temp/dev && npm ci
 # install only production dependencies
 RUN mkdir -p /temp/prod
 COPY package.json package-lock.json /temp/prod/
-RUN cd /temp/prod && npm ci --only=production
+RUN cd /temp/prod && npm ci --omit=dev
 
 # copy node_modules from temp directory
 # then copy all project files into image
@@ -28,4 +28,4 @@ COPY --from=prerelease /usr/src/app/package.json .
 
 # run the app as node user inside container
 USER node
-ENTRYPOINT [ "node", "bm_pirateban.js" ]
+ENTRYPOINT [ "node", "--max-old-space-size=48", "bm_pirateban.js" ]
