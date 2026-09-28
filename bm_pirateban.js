@@ -73,6 +73,7 @@ let lastHardNotify = 0;
 
 socket.on('connect', () => {
 	lastActivity = Date.now();
+	socket.emit('join', 'everything');
 	stallHandled = false;
 	reconnectAttempts = 0;
 	const wasOutage = outageNotified;
