@@ -65,41 +65,71 @@ const socket = io('https://api.brandmeister.network', {
 });
 
 let firstConnect = true;
-let lastState = 'down';
-let lastConnect = 0;
+let reconnectAttempts = 0;
+let outageNotified = false;
+let lastActivity = Date.now();
+let stallHandled = false;
+let lastHardNotify = 0;
 
 socket.on('connect', () => {
-	lastConnect = Date.now();
-	lastState = 'up';
+	lastActivity = Date.now();
+	stallHandled = false;
+	reconnectAttempts = 0;
+	const wasOutage = outageNotified;
+	outageNotified = false;
 	log('Connected to BM API');
 	if (firstConnect) {
 		firstConnect = false;
 		tg('BM_Pirateban (re)started and connected to Brandmeister');
-	} else {
+	} else if (wasOutage) {
 		tg('BM_Pirateban reconnected to Brandmeister');
 	}
 });
 
-function notifyError(context, error) {
-	log(context + ':', error.message ? error.message : error);
-	if (lastState !== 'error') {
-		lastState = 'error';
-		tg('BM_Pirateban lost connection to Brandmeister: ' + (error.message ? error.message : error));
+socket.on('disconnect', (reason) => {
+	log('Disconnected from BM API:', reason);
+});
+
+socket.on('connect_error', (error) => {
+	log('Connection error to Brandmeister:', error.message ? error.message : error);
+});
+
+socket.on('reconnect_error', (error) => {
+	log('Reconnection error on BM-Reconnect:', error.message ? error.message : error);
+});
+
+socket.on('reconnect_attempt', () => {
+	reconnectAttempts++;
+	if (reconnectAttempts >= 3 && !outageNotified) {
+		outageNotified = true;
+		tg('BM_Pirateban lost connection to Brandmeister, reconnect failing');
 	}
-}
-
-socket.on('connect_error', (error) => notifyError('Connection error to Brandmeister', error));
-
-socket.on('reconnect_error', (error) => notifyError('Reconnection error on BM-Reconnect', error));
+});
 
 setInterval(() => {
-	if (lastConnect && Date.now() - lastConnect > 5 * 60 * 1000) {
-		log.error('Watchdog: no BM connection for 5 minutes, exiting');
-		tg('BM_Pirateban: no Brandmeister connection for 5 minutes, restarting').then(() => process.exit(1));
+	if (Date.now() - lastActivity > 3 * 60 * 1000) {
+		if (socket.connected && !stallHandled) {
+			stallHandled = true;
+			log.error('Watchdog: no traffic for 3 minutes, forcing reconnect');
+			socket.close();
+			setTimeout(() => socket.open(), 2000);
+			return;
+		}
+		if (Date.now() - lastActivity > 6 * 60 * 1000) {
+			const notify = Date.now() - lastHardNotify > 30 * 60 * 1000;
+			log.error('Watchdog: no traffic for 6 minutes, exiting');
+			if (notify) {
+				lastHardNotify = Date.now();
+				tg('BM_Pirateban: no Brandmeister connection, restarting').then(() => process.exit(1));
+			} else {
+				process.exit(1);
+			}
+		}
 	}
 }, 60 * 1000).unref();
 
 socket.on('mqtt', (msg) => {
+	lastActivity = Date.now();
 	let lhMsg;
 	try {
 		lhMsg = JSON.parse(msg.payload);
